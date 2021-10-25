@@ -1,6 +1,4 @@
-
-
-class Node:
+class AutoCompleteTrie:
     def __init__(self,letter):
         self.letter=letter
         self.letterCount=1
@@ -23,7 +21,7 @@ class Node:
 
         if self.child[index] == None:
 
-            self.child[index]=Node(i)
+            self.child[index]=AutoCompleteTrie(i)
             self.child[index].insert(word[1:])
 
         else:
@@ -31,17 +29,58 @@ class Node:
             self.child[index].update()
             self.child[index].insert(word[1:])
 
-# class Tries:
-#     def __init__(self):
-#         self.child = []
+    def mostFreq(self):
+        mostFreqNode=0
+        max=0
+        # print(self.child[4].letterCount)
+        for i in range(26):
+            if self.child[i]!=None and self.child[i].letterCount>max:
+                mostFreqNode=self.child[i]
+                max=self.child[i].letterCount
+        return mostFreqNode
+
+    def searchWord(self,word):
+        if word=="":
+            return self
+        searchLetter=word[0]
+        currentNode=self.child[self.findPosition(searchLetter)]
+        if currentNode!=None:
+            return currentNode.searchWord(word[1:])
+        return None
 
 
 
-autocomplete=Node('*')
+    def suggestion(self,word):
+        completeWord=word
+        startNode=self.searchWord(word)
+        # print(startNode)
+        if startNode!=None:
+            mostFreqNode = startNode.mostFreq()
+
+            while mostFreqNode!=0:
+
+
+                completeWord+=mostFreqNode.letter
+
+
+                mostFreqNode=mostFreqNode.mostFreq()
+
+
+            return completeWord
+
+
+
+autocomplete=AutoCompleteTrie('*')
 autocomplete.insert("hi")
-autocomplete.insert("he")
+autocomplete.insert("hive")
 autocomplete.insert("hippo")
-print(autocomplete.child[7].findPosition('i'))
+autocomplete.insert("hiv")
+autocomplete.insert("apple")
+autocomplete.insert("ball")
+
+autocomplete.insert("tejas")
+
+print(autocomplete.suggestion('h'))
 
 # print(autocomplete.child[0])
 
