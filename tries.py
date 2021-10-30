@@ -90,7 +90,7 @@ class AutoCompleteTrie:
             print(word + l[i].letter + l[i].leftMost())
 
             # print(word+l[0].letter,l[0])
-        # l[0].nSuggestions(word+l[0].letter,n-count)
+        # l[0].nSuggeastions(word+l[0].letter,n-count)
         # print("hi")
 
 
